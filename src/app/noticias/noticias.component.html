@@ -1,0 +1,29 @@
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>
+<div class="center">
+    <p>
+    <input type="text" [formControl]="palabraBusqueda" placeholder="palabra"/>&nbsp;
+    <button (click)="busqueda()"><span class="bi bi-binoculars green-color"></span> Buscar</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button (click)="ordenar()"><span id="ordenarFecha" class="bi bi-arrow-down"></span> Ordenar por fecha</button>
+    </p>
+</div>
+
+<div>
+    <ol>        
+        <ul *ngFor="let noticia of noticias">
+            <div>                
+                <h3><i class='bi bi-star-fill green-color'></i> {{noticia.fecha}} {{noticia.title}}</h3>
+                <a href='{{noticia.url}}' target="_blank">Descripcion</a> 
+                <p>{{noticia.summary}}</p>
+                
+                <hr>
+            </div>
+        </ul>
+    </ol>
+</div>
+
+<div class="center">
+    <button (click)="paginarAtras()"><span class="bi-arrow-left-square-fill green-color"></span> Atras</button>
+    {{this.respuesta.offset}} de {{this.respuesta.count}} noticias 
+    <button (click)="paginarAdelante()">Adelante <span class="bi-arrow-right-square-fill green-color"></span></button>  
+</div>
