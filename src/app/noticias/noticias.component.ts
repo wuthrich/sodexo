@@ -15,11 +15,28 @@ export class NoticiasComponent {
   respuesta : any;
   ordenado: boolean = false;
   palabraBusqueda = new FormControl('');
+  atras!: HTMLButtonElement;
+  adelante!: HTMLButtonElement;
 
   ngOnInit() {    
 
     this.httpService.getPrimerasNoticias().subscribe(
       (response) => { this.respuesta = response; this.formatearFecha(this.respuesta.results);},
+      (error) => { console.log(error); });
+
+      this.atras = <HTMLButtonElement> document.getElementById("atras");
+      this.adelante = <HTMLButtonElement> document.getElementById("adelante");  
+      this.atras.disabled = true;
+
+  }
+
+  ingresarAfavoritos(articulo:any){
+
+    
+    var icono = document.getElementById(articulo.id)??new HTMLElement();
+
+    this.httpService.postArticle(articulo).subscribe(
+      (response) => { icono.className = "bi bi-star-fill";},
       (error) => { console.log(error); });
 
   }
@@ -36,23 +53,42 @@ export class NoticiasComponent {
 
     this.noticias = newArr;
 
-    var off = this.respuesta.next.split("offset=");
-    var off2 = off[1].split("&");
-    this.respuesta.offset = off2[0];
+    if(null!=this.respuesta.next){
+      var off = this.respuesta.next.split("offset=");
+      var off2 = off[1].split("&");
+      this.respuesta.offset = off2[0];
+    }else{
+      this.respuesta.offset = this.respuesta.count;
+    }
+    
   }
 
   paginarAdelante(){
     if(this.respuesta.next!=null)
     this.httpService.getNoticias(this.respuesta.next).subscribe(
-      (response) => { this.respuesta = response; this.formatearFecha(this.respuesta.results);},
+      (response) => { this.respuesta = response; this.formatearFecha(this.respuesta.results); this.habilitarAtras();},
       (error) => { console.log(error); });
+  }
+
+  habilitarAtras(){
+    this.atras.disabled = false;
+    if(this.respuesta.next == null){
+      this.adelante.disabled = true;
+    }
   }
 
   paginarAtras(){
     if(this.respuesta.previous!=null)
     this.httpService.getNoticias(this.respuesta.previous).subscribe(
-      (response) => { this.respuesta = response; this.formatearFecha(this.respuesta.results);},
+      (response) => { this.respuesta = response; this.formatearFecha(this.respuesta.results); this.habilitarAdelante();},
       (error) => { console.log(error); });
+  }
+
+  habilitarAdelante(){
+    this.adelante.disabled = false;
+    if(this.respuesta.previous == null){
+      this.atras.disabled = true;
+    }
   }
 
   ordenar(){

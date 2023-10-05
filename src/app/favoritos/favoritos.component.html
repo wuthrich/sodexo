@@ -1,1 +1,28 @@
-<p>favoritos works!</p>
+<div class="center">
+    <p>
+    <input type="text" [formControl]="palabraBusqueda" placeholder="palabra"/>&nbsp;
+    <button (click)="busqueda()"><span class="bi bi-binoculars green-color"></span> Buscar</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button (click)="ordenar()"><span id="ordenarFecha" class="bi bi-arrow-down"></span> Ordenar por fecha</button>
+    </p>
+</div>
+
+<div>
+    <ol>        
+        <ul *ngFor="let noticia of noticias; let myIndex=index;">
+            <div>                
+                <h3><a (click)="borrar(noticia, myIndex)" class='bi bi-star-fill green-color'></a> {{ formatearFecha (noticia.published)}} {{noticia.title}}</h3>
+                <a href='{{noticia.url}}' target="_blank">Descripcion (Añadida {{formatearFecha(noticia.adding)}})</a> 
+                <p>{{noticia.summary}}</p>
+                
+                <hr>
+            </div>
+        </ul>
+    </ol>
+</div>
+
+<div class="center">
+    <button (click)="paginarAtras()" id="atras"><span class="bi-arrow-left-square-fill green-color"></span> Atras</button>
+    {{elementosActuales()}}
+    <button (click)="paginarAdelante()" id="adelante">Adelante <span class="bi-arrow-right-square-fill green-color"></span></button>  
+</div>

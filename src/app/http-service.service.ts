@@ -10,7 +10,7 @@ export class HttpServiceService {
 
   private url = 'https://api.spaceflightnewsapi.net/v4/articles/';
 
-  getPrimerasNoticias() {
+  getPrimerasNoticias() {    
     return this.http.get(this.url);
   }
 
@@ -18,10 +18,31 @@ export class HttpServiceService {
     return this.http.get(url);
   }
 
-  getBusquedaNoticias(parametros:string) {     
-    console.log(this.url+parametros);
+  getBusquedaNoticias(parametros:string) {
     return this.http.get(this.url+parametros);
-   
+  }
+
+  private urlLocal = 'http://localhost:8080/article';
+
+  postArticle(body:any){
+    body.published = body.published_at;    
+    return this.http.post(this.urlLocal, body);
+  }
+
+  deleteArticle(id:any){
+    return this.http.delete(this.urlLocal+'/'+id);
+  }
+
+  getArticles(){
+    return this.http.get(this.urlLocal);
+  }
+
+  getArticlesPage(page:any, parametros?:any){
+    
+    if(undefined == parametros){
+      parametros = '';
+    }
+    return this.http.get(this.urlLocal+'/?pagina='+page+parametros);
   }
 
 }
