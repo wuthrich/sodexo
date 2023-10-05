@@ -83,9 +83,17 @@ busqueda(){
  
 
     this.httpService.getArticlesPage(0, this.parametros).subscribe(
-      (response) => { this.respuesta = response; this.atras.disabled = true; this.adelante.disabled = false; this.noticias = this.respuesta.content;},
+      (response) => { this.respuesta = response;this.habilitarBusqueda(); this.noticias = this.respuesta.content;},
       (error) => { console.log(error); });   
 
+}
+
+habilitarBusqueda(){
+  this.atras.disabled = true;
+  this.adelante.disabled = false;
+  if(this.respuesta.last){
+    this.adelante.disabled = true;
+  }
 }
 
   borrar(noticia:any, index: number){
