@@ -83,7 +83,7 @@ busqueda(){
  
 
     this.httpService.getArticlesPage(0, this.parametros).subscribe(
-      (response) => { this.respuesta = response; this.atras.disabled = true; this.noticias = this.respuesta.content;},
+      (response) => { this.respuesta = response; this.atras.disabled = true; this.adelante.disabled = false; this.noticias = this.respuesta.content;},
       (error) => { console.log(error); });   
 
 }

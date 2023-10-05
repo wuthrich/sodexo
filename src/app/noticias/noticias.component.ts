@@ -133,7 +133,7 @@ export class NoticiasComponent {
     }
 
     this.httpService.getBusquedaNoticias(parametros).subscribe(
-      (response) => { this.respuesta = response; this.formatearFecha(this.respuesta.results);},
+      (response) => { this.respuesta = response; this.formatearFecha(this.respuesta.results);this.adelante.disabled = false;this.atras.disabled = true;},
       (error) => { console.log(error); });   
  
   }
